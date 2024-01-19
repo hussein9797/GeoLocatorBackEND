@@ -1,21 +1,16 @@
-# Use Ubuntu as the base image
-FROM ubuntu:20.04
+# Stage 1: Build the application
+FROM maven:3.8.4-openjdk-17-slim AS build
+COPY src /usr/src/app/src
+COPY pom.xml /usr/src/app
+RUN mvn -f /usr/src/app/pom.xml clean package -DskipTests
 
-# Set environment variables
-ENV JAVA_HOME /usr/lib/jvm/openjdk-21
-ENV PATH $PATH:$JAVA_HOME/bin
-
-# Install OpenJDK 21
-RUN apt-get update \
-    && apt-get install -y openjdk-17-jdk \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-# Set working directory
+# Stage 2: Create a minimal JRE image and copy the JAR file
+FROM adoptopenjdk/openjdk17:alpine-jre
 WORKDIR /app
+COPY --from=build /usr/src/app/target/GeoLocator-1.war /app/app.war
 
-# Copy your application JAR or other artifacts to the container
-COPY your-application.jar /app/
+# Expose the port your app will run on
+EXPOSE 8080
 
-# Command to run your application
-CMD ["java", "-jar", "your-application.jar"]
+# Command to run the application
+CMD ["java", "-jar", "app.war"]

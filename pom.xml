@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.IT_Pluse</groupId>
 	<artifactId>GeoLocator</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1</version>
 	<packaging>war</packaging>
 	<name>GeoLocator</name>
 	<description>GeoLocator</description>
