@@ -1,16 +1,24 @@
-# Stage 1: Build the application
-FROM maven:3.8.4-openjdk-17-slim AS build
-COPY src /usr/src/app/src
-COPY pom.xml /usr/src/app
-RUN mvn -f /usr/src/app/pom.xml clean package -DskipTests
+# Use the official maven/Java 17 image to create a build artifact.
+# https://hub.docker.com/_/maven
+FROM maven:3.8.4-eclipse-temurin-17 as builder
 
-# Stage 2: Create a minimal JRE image and copy the JAR file
-FROM azul/zulu-openjdk:17-alpine
+# Copy local code to the container image.
 WORKDIR /app
-COPY --from=build /usr/src/app/target/GeoLocator-1.war /app/app.war
+COPY pom.xml .
+COPY src ./src
 
-# Expose the port your app will run on
+# Build a release artifact.
+RUN mvn package -DskipTests
+
+# Use the official Java 17 image for a lean production stage of your Spring Boot application.
+# https://hub.docker.com/_/eclipse-temurin
+FROM eclipse-temurin:17-jdk-alpine
+
+# Copy the jar file from the builder stage to the production stage.
+COPY --from=builder /app/target/GeoLocator-1.war GeoLocator.war
+
+# Expose port 8080 for web access.
 EXPOSE 8080
 
-# Command to run the application
-CMD ["java", "-jar", "app.war"]
+# Run the web service on container startup.
+ENTRYPOINT ["java","-jar","/GeoLocator.war"]
