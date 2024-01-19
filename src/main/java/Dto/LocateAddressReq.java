@@ -14,7 +14,7 @@ import java.io.Serializable;
 @With
 public class LocateAddressReq implements Serializable {
 
-     String address;
+      String address;
     String mail;
     Double lat;
     Double lang;
