@@ -15,6 +15,10 @@
 	<name>GeoLocator</name>
 	<description>GeoLocator</description>
 	<properties>
+
+			<maven.compiler.source>1.8</maven.compiler.source>
+			<maven.compiler.target>1.8</maven.compiler.target>
+
 		<java.version>21</java.version>
 	</properties>
 	<dependencies>
@@ -71,9 +75,11 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 
+
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
+
 
 </project>
