@@ -5,7 +5,7 @@ COPY pom.xml /usr/src/app
 RUN mvn -f /usr/src/app/pom.xml clean package -DskipTests
 
 # Stage 2: Create a minimal JRE image and copy the JAR file
-FROM openjdk:17-jre-alpine
+FROM azul/zulu-openjdk:17-alpine
 WORKDIR /app
 COPY --from=build /usr/src/app/target/GeoLocator-1.war /app/app.war
 
