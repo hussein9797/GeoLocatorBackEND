@@ -12,7 +12,7 @@ public class CorsConfig implements WebMvcConfigurer {
      public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
 
-                .allowedOriginPatterns("http://localhost:8888/")
+                .allowedOriginPatterns("https://geolocator-60r2.onrender.com/")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH")
                 .allowedHeaders("*")
                 .exposedHeaders("Authorization")
