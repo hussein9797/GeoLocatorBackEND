@@ -73,7 +73,7 @@ public class GeoServiceImpl implements GeoService{
 
 
 
-             Geo geolocation = new Geo(address, lat, lon);
+            Geo geolocation = new Geo(address, lat, lon);
             geoRepository.save(geolocation);
 
             return responseHandler.success(geolocation);
